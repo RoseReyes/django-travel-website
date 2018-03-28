@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'logreg/css/loginReg.css' %}" media="screen" title="no title"  charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        <div class="left-header">
+            <h4>Welcome, {{ user.name }}!</h4>
+        </div>
+        <div class="right-header">
+            <a href="{% url 'my_logout' %}">Logout</a></h4>
+        </div>
+        <br>
+        <p>Your Trip Schedules</p>
+        <br>
+        <table cellpadding="10">
+            <tr>
+              <th>Destination</th>
+              <th>Travel Start Date</th> 
+              <th>Travel End Date</th>
+              <th>Plan Description</th>
+            </tr>
+            {% for travel in my_travels %}
+                <tr>
+                    <td><a href="/destination/{{ travel.id }} ">{{ travel.destination }}</a></td>
+                    <td>{{ travel.travel_date_from|date:"M d Y" }}</td>
+                    <td>{{ travel.travel_date_to|date:"M d Y" }}</td>
+                    <td>{{ travel.description }}</td>
+                </tr>
+            {% endfor  %}
+            {% for travel in joined_travels %}
+                <tr>
+                    <td><a href="/destination/{{ travel.id }} ">{{ travel.destination }}</a></td>
+                    <td>{{ travel.travel_date_from |date:"M d Y" }}</td>
+                    <td>{{ travel.travel_date_to|date:"M d Y" }}</td>
+                    <td>{{ travel.description }}</td>
+                </tr>
+            {% endfor  %}
+          </table>
+        <br>
+        <br>
+        <p>Other User's Travel Plans</p>
+        <br>
+            <table cellpadding="10">
+                <tr>
+                  <th>Name</th>
+                  <th>Destination</th>
+                  <th>Travel Start Date</th> 
+                  <th>Travel End Date</th>
+                  <th>Do you want to join</th>
+                </tr>
+                {% for travel in all_travels %}
+                <form action='/createMyTravels' method="post">
+                    {%  csrf_token %}
+                    <tr>
+                        <td>{{ travel.created_by.name }}</td>
+                        <td><a href="/destination/{{ travel.id }} ">{{ travel.destination }}</a></td>
+                        <td>{{ travel.travel_date_from|date:"M d Y" }}</td>
+                        <td>{{ travel.travel_date_to|date:"M d Y" }}</td>
+                        <td> <input type="submit" name="submit" value="Join"> </td>
+                        <td> <input type="hidden" name="travel_id" value="{{ travel.id }}"> </td>
+                    </tr>
+                </form>
+                {% endfor %}
+            </table>
+            <br>
+            <p><a href="/addlanding_page">Add Travel</a></p>
+    </div>
+</body>
+</html>
+
+

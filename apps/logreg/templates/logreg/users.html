@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="right-menu">
+            <a href="{% url 'home' %}">Home</a> | <a href="{% url 'my_logout' %}">Logout</a>
+        </div>
+        <div class="user-section">
+            {% for travel in all_travels %}
+                <h3>{{ travel.destination }} </h3>
+                <p>Planned by:{{ travel.created_by.name }}</p>
+                <p>Description: {{ travel.description }}</p>
+                <p>Travel Date From: {{ travel.travel_date_from|date:"M d Y"}}</p>
+                <p>Travel Date To: {{ travel.travel_date_to|date:"M d Y" }}</p>
+                <p>{{ members.favorite_user.name }}</p>
+            {% endfor %}
+            <br>
+            <p>Other user's joining the trip</p>
+            {%  for user in joined_user %}
+                <p>{{ user.name }}</p>
+            {%  endfor %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="right-menu">
+        <a href="{% url 'home' %}">Home</a> | <a href="{% url 'my_logout' %}">Logout</a>
+    </div>
+    <p>Add a Trip</p>
+        <ul>
+            {% for message in messages %}
+                {% if 'travelError' in message.extra_tags %}
+                    <li>{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    <form action="/addTravel" method="post">
+        {%  csrf_token %}
+        <p>Destination: <input type="text" name="destination"></p>
+        <p>Description: <input type="text" name="description"></p>
+        <p>Travel Date From: <input type="date" name="travel-date-from"></p>
+        <p>Travel Date To: <input type="date" name="travel-date-to"></p>
+        <p><input type ="submit" name="submit" value ="Add"></p>
+    </form>
+</body>
+</html>
